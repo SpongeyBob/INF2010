@@ -1,2 +1,4 @@
 # inf2010
-LABS data structyre and Algortihm
+LABS data structure and Algortihm
+
+Until the semester ends this repo will stay private, I will switch it to privat afterwards
