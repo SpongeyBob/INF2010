@@ -22,37 +22,22 @@ public class Point2d extends AbstractPoint {
     // TODO prendre un vecteur de donnees et appliquer la translation.
     @Override
     public Point2d translate(Double[] translateVector) {
-        if (translateVector.length != vector.length) {
-            throw new Exception("incompatible vectors \n");
-        }
-        vector[X] += translateVector[X];
-        vector[Y] += translateVector[Y];
-        return this;
+        PointOperator.translate(vector, translateVector);
+        return null;
     }
 
     // TODO prendre un point et appliquer la translation.
     public Point2d translate(Point2d translateVector) {
-        if (translateVector.vector.length != this.vector.length) {
-            throw new Exception("incompatible vectors \n");
-        }
-        this.vector[X] += translateVector.vector[X];
-        this.vector[Y] += translateVector.vector[Y];
-        return this;
+        PointOperator.translate(this.vector, translateVector.vector);
+        return null;
     }
 
     //https://academo.org/demos/rotation-about-point/
     // TODO prendre un vecteur de donnees et appliquer la translation.
     @Override
     public Point2d rotate(Double[][] rotationMatrix) {
-        if(rotationMatrix.length !=2 || rotationMatrix[0].length != 2){
-            throw new Exception("Wrong dimension for rotation Matrix");
-        }
-        //n'est pas primordial mais facilite la lecture.
-        double x =this.vector[X],
-               y= this.vector[Y];
-        this.vector[X]= x * rotationMatrix[X][0] + x * rotationMatrix[X][1];
-        this.vector[Y]= y * rotationMatrix[Y][0] + y * rotationMatrix[Y][1];
-        return this;
+        PointOperator.rotate(vector, rotationMatrix);
+        return null;
     }
 
     // TODO prendre un angle de rotation, creer une matrice et appliquer la rotation.
@@ -67,30 +52,28 @@ public class Point2d extends AbstractPoint {
 
         rotationMatrix[1][0] = java.lang.Math.sin(angle);
         rotationMatrix[1][1] = java.lang.Math.cos(angle);
-        return this.rotate(rotationMatrix);
+        this.rotate(rotationMatrix);
+        return null;
     }
 
     // TODO prendre un facteur de division et l'appliquer.
     @Override
     public Point2d divide(Double divider) {
-        vector[X] = vector[X] / divider;
-        vector[Y] = vector[Y] / divider;
-        return this;
+        PointOperator.divide(vector, divider);
+        return null;
     }
 
     // TODO prendre un facteur de multiplication et l'appliquer.
     @Override
     public Point2d multiply(Double multiplier) {
-        vector[X] = vector[X] * multiplier;
-        vector[Y] = vector[Y] * multiplier;
-        return this;
+        PointOperator.multiply(vector, multiplier);
+        return null;
     }
 
     // TODO prendre un facteur d'addition et l'appliquer.
     @Override
     public Point2d add(Double adder) {
-        vector[X] += adder;
-        vector[Y] += adder;
+        PointOperator.add(vector, adder);
         return this;
     }
 
