@@ -10,8 +10,8 @@ public abstract class AbstractPoint {
         this.vector = vector;
     }
 
-    public abstract AbstractPoint translate(Double[] translateVector);
-    public abstract AbstractPoint rotate(Double[][] rotationMatrix);
+    public abstract AbstractPoint translate(Double[] translateVector) throws Exception;
+    public abstract AbstractPoint rotate(Double[][] rotationMatrix) throws Exception;
     public abstract AbstractPoint divide(Double divider);
     public abstract AbstractPoint multiply(Double multiplier);
     public abstract AbstractPoint add(Double adder);
