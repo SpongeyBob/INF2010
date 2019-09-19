@@ -5,54 +5,59 @@ import java.util.*;
 public final class PointOperator {
     //  appliquer la translation sur le vecteur d'entree.
     public static Double[] translate(Double[] vector, Double[] translateVector) {
-        if (translateVector.length != vector.length) {
-            System.out.printf("incompatible vectors \n");
-        }
-        for (int i =0; i < vector.length ; i++){
-            vector[i] += translateVector[i];
-        }
-        return vector;
-    }   
-
-    //  appliquer la rotation sur le vecteur d'entree.
-    public static Double[] rotate(Double[] vector, Double[][] rotationMatrix) {
-        if(vector.length != rotationMatrix[0].length) {
-            System.out.printf("incompatible dimensions");
+        if (vector.length != translateVector.length) {
+            System.out.printf("incompatible size vector");
             return null;
         }
-        Double[] retval = vector;
-        for (int row =0 ; row< rotationMatrix[0].length; row ++ ){
-            double sum = 0.0;
-            for (int column = 0 ; column< vector.length; column ++){
-                sum += vector[column]*rotationMatrix[row][column] ;
-            }
-            retval[row] = sum;
+        Double[] retval = new Double[vector.length];
+        for (int i =0; i<vector.length; i++){
+            retval[i] = vector[i] + translateVector[i];
         }
         return retval;
     }
 
+    //  appliquer la rotation sur le vecteur d'entree.
+    public static Double[] rotate(Double[] vector, Double[][] rotationMatrix) {
+       if(vector.length != rotationMatrix[0].length) {
+            System.out.printf("incompatible dimensions");
+            return null;
+        }
+       Double[] retval = new Double[vector.length]; //redundant within code not within scope
+       for(int i =0; i<vector.length; i++){ //row
+           retval[i]=0D;
+           for (int j = 0; j<vector.length;j++){ //column
+               retval[i] += vector[j] * rotationMatrix[i][j];
+           }
+       }
+       return retval;
+    }
+
     //  appliquer le facteur de division sur le vecteur d'entree.
     public static Double[] divide(Double[] vector, Double divider) {
+        Double[] retval = new Double[vector.length];
         for (int i =0 ; i<vector.length; i ++){
-            vector[i] = vector[i] / divider;
+            retval[i] = vector[i] / divider;
+
         }
-        return vector;
+        return retval;
     }
 
     //  appliquer le facteur de multiplication sur le vecteur d'entree.
     public static Double[] multiply(Double[] vector, Double multiplier) {
+        Double[] retval = new Double[vector.length];
         for (int i =0 ; i<vector.length; i ++){
-            vector[i] = vector[i] * multiplier;
+            retval[i] = vector[i] * multiplier;
         }
-        return vector;
+        return retval;
     }
 
     //  appliquer le facteur d'addition sur le vecteur d'entree.
     public static Double[] add(Double[] vector, Double adder) {
+        Double[] retval = new Double[vector.length];
         for (int i =0 ; i<vector.length; i ++){
-            vector[i] += adder;
+            retval[i] = vector[i]+ adder;
         }
-        return vector;
+        return retval;
     }
 
     //  retourne la coordonnee avec les plus grandes valeurs en X et en Y.

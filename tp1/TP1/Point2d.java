@@ -22,22 +22,22 @@ public class Point2d extends AbstractPoint {
     //  prendre un vecteur de donnees et appliquer la translation.
     @Override
     public Point2d translate(Double[] translateVector) {
-        PointOperator.translate(vector, translateVector);
-        return this;
+        Point2d retval = new Point2d(PointOperator.translate(vector, translateVector));
+        return retval;
     }
 
     //  prendre un point et appliquer la translation.
     public Point2d translate(Point2d translateVector) {
-        PointOperator.translate(this.vector, translateVector.vector);
-        return this;
+         Point2d retval = new Point2d(PointOperator.translate(this.vector, translateVector.vector));
+        return retval;
     }
 
     //https://academo.org/demos/rotation-about-point/
     //  prendre un vecteur de donnees et appliquer la translation.
     @Override
     public Point2d rotate(Double[][] rotationMatrix) {
-        PointOperator.rotate(vector, rotationMatrix);
-        return this;
+        Point2d retval = new Point2d(PointOperator.rotate(vector, rotationMatrix));
+        return retval;
     }
 
     //  prendre un angle de rotation, creer une matrice et appliquer la rotation.
@@ -47,13 +47,12 @@ public class Point2d extends AbstractPoint {
         [sin θ    cos θ]
         */
         Double[][] rotationMatrix = new Double[2][2];
-        rotationMatrix[0][0] = java.lang.Math.cos(angle);
-        rotationMatrix[0][1] = -java.lang.Math.sin(angle);
+        rotationMatrix[0][0] = Math.cos(angle);
+        rotationMatrix[0][1] = Math.sin(angle) * (-1);
 
-        rotationMatrix[1][0] = java.lang.Math.sin(angle);
-        rotationMatrix[1][1] = java.lang.Math.cos(angle);
-        this.rotate(rotationMatrix);
-        return this;
+        rotationMatrix[1][0] = Math.sin(angle);
+        rotationMatrix[1][1] = Math.cos(angle);
+        return this.rotate(rotationMatrix);
     }
 
     //  prendre un facteur de division et l'appliquer.
