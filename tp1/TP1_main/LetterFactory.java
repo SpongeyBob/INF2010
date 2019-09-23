@@ -22,17 +22,18 @@ public final class LetterFactory {
 
     // TODO
     public static BaseShape create_e() {
-        return null;
+        BaseShape circle = new Circle(50D);
+        return circle;
     }
 
     // TODO
     public static BaseShape create_l() {
-        return null;
+        return new Rectangle(stripeThickness,maxHeight);
     }
 
     // TODO
     public static BaseShape create_o() {
-        return null;
+        return new Circle(halfMaxWidth);
     }
 
     // On vous donne la lettre W comme exemple.
@@ -52,11 +53,11 @@ public final class LetterFactory {
 
     // TODO
     public static BaseShape create_r() {
-        return null;
+        return new Rectangle(1D,1D);
     }
 
     // TODO
     public static BaseShape create_d() {
-        return null;
+        return new Rectangle(1D,1D);
     }
 }

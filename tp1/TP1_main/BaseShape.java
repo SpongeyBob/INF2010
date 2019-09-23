@@ -18,8 +18,9 @@ public class BaseShape {
     // DONE -  prendre une liste de points et creer une nouvelle forme.
     public BaseShape(@NotNull Collection<Point2d> coords) {
         this.coords=new HashSet<>();
-        for (Point2d point: coords){
-            this.coords.add(point);
+        Iterator<Point2d> myIterator = coords.iterator();
+        while(myIterator.hasNext()){
+            this.coords.add(myIterator.next());
         }
     }
 
@@ -29,7 +30,11 @@ public class BaseShape {
     }
 
     public void add(BaseShape shape) {
-        for (Point2d newPoint : shape.getCoords()) this.add(newPoint);
+        Iterator<Point2d> shapeIterator = shape.coords.iterator();
+        while(shapeIterator.hasNext()){
+            this.add(shapeIterator.next());
+        }
+        //for (Point2d newPoint : shape.getCoords()) this.add(newPoint);
     }
     public void addAll(Collection<Point2d> coords) {
         for(Point2d newPoint : coords) this.add(newPoint);
@@ -46,7 +51,11 @@ public class BaseShape {
 
     // retourne les coordonnees de la liste.
     public Set<Point2d> getCoords() {
-        Set<Point2d> retCoord = coords;
+        Set<Point2d> retCoord = new HashSet<>();
+        Iterator<Point2d> iterator = coords.iterator();
+        while(iterator.hasNext()){
+            retCoord.add(iterator.next());
+        }
         return retCoord;
     }
 
