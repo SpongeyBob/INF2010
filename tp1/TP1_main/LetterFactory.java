@@ -9,7 +9,15 @@ public final class LetterFactory {
 
     // TODO
     public static BaseShape create_H() {
-        return null;
+        BaseShape leftStripe = new Rectangle(stripeThickness,maxHeight);
+        BaseShape centerDash = new Rectangle(maxWidth,stripeThickness);
+        Double[] centerPoint ={0D, halfMaxHeight};
+        centerDash= centerDash.translate(new Point2d(centerPoint)) ;
+        Double[] rightPoint ={maxWidth,0D};
+        BaseShape rightStripe = leftStripe.translate(new Point2d(rightPoint));
+        leftStripe.add(centerDash);
+        leftStripe.add(rightStripe);
+        return leftStripe;
     }
 
     // TODO

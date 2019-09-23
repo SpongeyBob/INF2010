@@ -62,7 +62,7 @@ public final class PointOperator {
 
     //  retourne la coordonnee avec les plus grandes valeurs en X et en Y.
     public static Point2d getMaxCoord(Collection<Point2d> coords) {
-        Double[] retval = {-9999.99,-9999.99};
+        Double[] retval = {-9999.99,-9999.99}; //small enough value within exercice's scope
         for(Point2d point : coords){
             Double
                 X = point.X(),
@@ -78,10 +78,10 @@ public final class PointOperator {
 
     //  retourne la coordonnee avec les plus petites valeurs en X et en Y.
     public static Point2d getMinCoord(Collection<Point2d> coords) {
-        Double[] retval = {9999.99,9999.99};
+        Double[] retval = {9999.99,9999.99};//large enough value within exercice's scope
         for(Point2d point : coords){
             Double
-                X = point.X(), 
+                X = point.X(),
                 Y = point.Y();
             if( X<retval[0]) 
                 retval[0] = X;
