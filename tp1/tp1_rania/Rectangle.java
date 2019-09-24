@@ -4,11 +4,15 @@ import java.util.Set;
 
 public class Rectangle extends BaseShape {
     // TODO creer un rectangle avec une largeur et une longueur.
-    public Rectangle(Double width, Double height) super() {
-        width=0;
-        height=0;
-        // ...
-    }
+
+        public Rectangle(double width, double height) {
+            for (double i = -width / 2; i <= width / 2; i++) {
+                for (double j = -height / 2; j <= height / 2; j++) {
+                    add(new Point(i, j));
+                }
+
+            }
+        }
 
     // TODO creer un rectangle avec un point contenant la largeur et longueur.
     public Rectangle(Point2d dimensions) { //AREVOIR
