@@ -119,24 +119,24 @@ public class LinkedHashMap<KeyType, DataType> {
             this.rehash();
 
        DataType olddata=null;
-
-       int i= getIndex(key);
         Node<KeyType, DataType> n = new Node<>(key,value);
-        if(this.map[i]==null) //n'est pas la dans le map
+       int i= getIndex(key);
+
+        if (this.containsKey(key))
+        {
+            Node<KeyType, DataType> copy= this.map[i]; //copie du node trouver dans le map
+            olddata = copy.data;
+            //n.next=copy;
+            this.map[i].data= n.data; // modification du node trouver par ce qui est passer en param
+        }
+        else //n'est pas trouver dans le map
         {
             this.map[i]=n;
             this.size=size+1;
-            return olddata;
         }
-        else
-            {
-            Node<KeyType, DataType> nodeamod = this.map[i];
-            olddata = nodeamod.data;
-            n.next=nodeamod;
-            this.map[i]= n;
-        }
+
         return olddata;
-        
+
 
 
     }
@@ -149,28 +149,17 @@ public class LinkedHashMap<KeyType, DataType> {
     public DataType remove(KeyType key)
         {
         DataType removed=null;
+        int i =this.getIndex(key);
+
         if (this.containsKey(key))
         {
-            for (int i = 0; i < this.map.length; i++)
-            {
-                for(Node<KeyType, DataType> n = this.map[i]; n != null; n = n.next)
-                {
-                    if (n.key == key)
-                    {
-                        this.map[i - 1].next = this.map[i + 1];
-                        this.map[i].next = null;
-                        removed = this.map[i].data;
-                    }
-                }
-            }
-
+            Node<KeyType, DataType> copy= this.map[i];
+            removed=copy.data;
+            this.map[i-1].next=this.map[i].next;
+            this.map[i].next=null;
+                    size--;
         }
-
-        //parcours trouver la key
-        //(trouver lindex)pointeur next du avant le key pointe vers prochain de key
-        //pointeur previous du apres du key == est le avant du key
-        //key next==null
-
+        
         return removed;
     }
 
