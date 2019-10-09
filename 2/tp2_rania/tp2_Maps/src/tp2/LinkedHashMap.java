@@ -159,7 +159,7 @@ public class LinkedHashMap<KeyType, DataType> {
             this.map[i].next=null;
                     size--;
         }
-        
+
         return removed;
     }
 
