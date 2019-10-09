@@ -39,22 +39,20 @@ public class LinkedHashMap<KeyType, DataType> {
      * reassigns all contained values within the new map
      */
     private void rehash() {
-        if (shouldRehash())
-        {
-            this.capacity *= CAPACITY_INCREASE_FACTOR;
-            Node<KeyType, DataType>[] map1 = this.map;
-            this.clear();
-            this.size = 0;
-            Node<KeyType, DataType>[] map2 = new Node[this.capacity];
-
-            for (int i = 0; i < map1.length; i++) {
-                for (Node<KeyType, DataType> n = map1[i]; n != null; n = n.next) {
-                   map2[i]=map1[i];
-                   this.map[i]=map2[i];
+        capacity = capacity* CAPACITY_INCREASE_FACTOR;
+        Node<KeyType,DataType> [] oldMap = map;
+        map = new Node[capacity];
+        size=0;
+        for(int i=0; i< oldMap.length; i++){
+            if(oldMap[i] != null) {
+                put(oldMap[i].key, oldMap[i].data);
+                Node nextNode = oldMap[i].next;
+                while(nextNode != null){
+                    put((KeyType) nextNode.key, (DataType)nextNode.data);
+                    nextNode = nextNode.next;
                 }
             }
         }
-
     }
 
     public int size() {
@@ -69,98 +67,99 @@ public class LinkedHashMap<KeyType, DataType> {
         return size == 0;
     }
 
-    /** TODO
+    /** Done
      * Finds if map contains a key
      * @param key Key which we want to know if exists within map
      * @return if key is already used in map
      */
     public boolean containsKey(KeyType key) {
-        boolean exist=false;
-    for(int i=0; i<this.map.length;i++)
-    for(Node<KeyType, DataType> n = this.map[i]; n != null; n = n.next)
-    {
-        if (n.key==key)
-            exist=true;
-    }
-    return exist;
+        int index = getIndex(key);
+        if(map[index] == null ) return false;
+        Node<KeyType, DataType> node = map[index];
+        while(node != null){
+            if(node.key == key) return true;
+            node=node.next;
+        }
+        return false;
     }
 
-    /** TODO
+    /**
      * Finds the value attached to a key
      * @param key Key which we want to have its value
      * @return DataType instance attached to key (null if not found)
      */
     public DataType get(KeyType key) {
-
-        DataType datatypeattached = null;
-
-        if(this.containsKey(key))
-        {
-            int index= getIndex(key);
-
-                for (Node<KeyType, DataType> n = this.map[index]; n != null; n = n.next)
-                {
-                    if (n.key == key)
-                        datatypeattached = n.data;
-
-                }
+        if(!containsKey(key)) return null;
+        int index = getIndex(key);
+        Node<KeyType, DataType> node = map[index];
+        while(node != null){
+            if (node.key == key) return node.data;
+            node=node.next;
         }
-        return datatypeattached;
+        //this line should never run
+        return null;
+
     }
 
-    /** TODO
+    /**
      * Assigns a value to a key
      * @param key Key which will have its value assigned or reassigned
      * @return Old DataType instance at key (null if none existed)
      */
     public DataType put(KeyType key, DataType value)
     {
-        if(shouldRehash())
-            this.rehash();
-
-       DataType olddata=null;
-        Node<KeyType, DataType> n = new Node<>(key,value);
-       int i= getIndex(key);
-
-        if (this.containsKey(key))
-        {
-            Node<KeyType, DataType> copy= this.map[i]; //copie du node trouver dans le map
-            olddata = copy.data;
-            //n.next=copy;
-            this.map[i].data= n.data; // modification du node trouver par ce qui est passer en param
+        int index = getIndex(key);
+        if(containsKey(key)) { //key exist
+            Node<KeyType, DataType> node = map[index];
+            while(node != null) {
+                if (node.key == key) { //replace value and return old value
+                    DataType retVal = node.data;
+                    node.data = value;
+                    return retVal;
+                }
+                node=node.next;
+            }
         }
-        else //n'est pas trouver dans le map
-        {
-            this.map[i]=n;
-            this.size=size+1;
+        size++; // new addition
+        if (shouldRehash()) rehash();
+        //no collision just place
+        if(map[index] == null ){
+            map[index] = new Node<KeyType,DataType>(key,value);
+            return null;
         }
-
-        return olddata;
-
-
-
+        //collision happened
+        Node<KeyType,DataType> node = new Node<KeyType,DataType>(key,value);
+        node.next = map[index];
+        return null;
     }
 
-    /** TODO
+    /**
      * Removes the node attached to a key
      * @param key Key which is contained in the node to remove
      * @return Old DataType instance at key (null if none existed)
      */
     public DataType remove(KeyType key)
         {
-        DataType removed=null;
-        int i =this.getIndex(key);
-
-        if (this.containsKey(key))
-        {
-            Node<KeyType, DataType> copy= this.map[i];
-            removed=copy.data;
-            this.map[i-1].next=this.map[i].next;
-            this.map[i].next=null;
+        int index =this.getIndex(key);
+        DataType retVal = null;
+        if (this.containsKey(key)) {
+            Node<KeyType, DataType> node = map[index];
+            while(node!=null) {
+                if (node.key == key) {
+                    retVal = node.data;
+                    node = node.next;
                     size--;
+                    return retVal;
+                }
+                node=node.next;
+            }
         }
+<<<<<<< HEAD:2/tp2_rania/tp2_Maps/src/tp2/LinkedHashMap.java
 
         return removed;
+=======
+        return null;
+>>>>>>> a84a2ba41008f01594d5241da289166de357f089:2/tp2/tp2_Maps/src/tp2/LinkedHashMap.java
     }
 
 
@@ -168,24 +167,12 @@ public class LinkedHashMap<KeyType, DataType> {
      * Removes all nodes contained within the map
      */
     public void clear() {
-        this.map[0]= new Node<KeyType, DataType>(null,null);
-        this.map[0].next=this.map[this.map.length];
-        this.map[this.map.length]= new Node<KeyType, DataType>(null,null);
-        this.map[this.map.length].next=this.map[0];
-
-        /*for (int i=0, i<map.length; i++)
-        {
-        for(Node<KeyType, DataType> n = this.map[i]; n != null; n = n.next )
-            {
-
+        for(int i =0; i< map.length ; ++i){
+            if (map[i] != null ) {
+                map[i] = null;
             }
         }
-
-         */
-
-        this.size = 0;
-
-
+        size = 0;
     }
 
 
