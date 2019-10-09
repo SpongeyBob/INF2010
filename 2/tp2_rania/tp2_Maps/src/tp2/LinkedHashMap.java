@@ -115,29 +115,29 @@ public class LinkedHashMap<KeyType, DataType> {
      */
     public DataType put(KeyType key, DataType value)
     {
-        if (this.containsKey(key))
+        if(shouldRehash())
+            this.rehash();
+
+       DataType olddata=null;
+
+       int i= getIndex(key);
+        Node<KeyType, DataType> n = new Node<>(key,value);
+        if(this.map[i]==null) //n'est pas la dans le map
         {
-            int index=getIndex(key);
-           return this.map[index].data;
-            this.map[index].data;
+            this.map[i]=n;
+            this.size=size+1;
+            return olddata;
         }
         else
-            return null;
-        /*for (int i = 0; i < this.map.length; i++)
-        {
-            for (Node<KeyType, DataType> n = this.map[i]; n != null; n = n.next)
             {
-                if (n.key == key)
-                {
-                    olddata = n.data;
-                    n.data = value;
-                }
-            }
-
+            Node<KeyType, DataType> nodeamod = this.map[i];
+            olddata = nodeamod.data;
+            n.next=nodeamod;
+            this.map[i]= n;
         }
         return olddata;
+        
 
-         */
 
     }
 
