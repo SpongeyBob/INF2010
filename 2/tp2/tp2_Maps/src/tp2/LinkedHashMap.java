@@ -39,7 +39,7 @@ public class LinkedHashMap<KeyType, DataType> {
      * reassigns all contained values within the new map
      */
     private void rehash() {
-        capacity = capacity* CAPACITY_INCREASE_FACTOR;
+        capacity *= CAPACITY_INCREASE_FACTOR;
         Node<KeyType,DataType> [] oldMap = map;
         map = new Node[capacity];
         size=0;
@@ -47,7 +47,7 @@ public class LinkedHashMap<KeyType, DataType> {
             if(oldMap[i] != null) {
                 put(oldMap[i].key, oldMap[i].data);
                 Node nextNode = oldMap[i].next;
-                while(nextNode != null){
+               while(nextNode != null){
                     put((KeyType) nextNode.key, (DataType)nextNode.data);
                     nextNode = nextNode.next;
                 }
@@ -108,6 +108,7 @@ public class LinkedHashMap<KeyType, DataType> {
      */
     public DataType put(KeyType key, DataType value)
     {
+        if (shouldRehash()) rehash();
         int index = getIndex(key);
         if(containsKey(key)) { //key exist
             Node<KeyType, DataType> node = map[index];
@@ -121,7 +122,7 @@ public class LinkedHashMap<KeyType, DataType> {
             }
         }
         size++; // new addition
-        if (shouldRehash()) rehash();
+
         //no collision just place
         if(map[index] == null ){
             map[index] = new Node<KeyType,DataType>(key,value);
@@ -154,12 +155,10 @@ public class LinkedHashMap<KeyType, DataType> {
                 node=node.next;
             }
         }
-<<<<<<< HEAD:2/tp2_rania/tp2_Maps/src/tp2/LinkedHashMap.java
 
-        return removed;
-=======
+
         return null;
->>>>>>> a84a2ba41008f01594d5241da289166de357f089:2/tp2/tp2_Maps/src/tp2/LinkedHashMap.java
+
     }
 
 
