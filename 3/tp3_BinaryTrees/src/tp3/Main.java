@@ -2,6 +2,7 @@ package tp3;
 
 import tests.Corrector;
 
+
 public class Main {
 
     public static void main(String[] args) {
