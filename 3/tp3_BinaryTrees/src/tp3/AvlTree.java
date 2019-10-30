@@ -161,7 +161,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
         }
 
 
-        if (getLevelCount(subTree.right)- getLevelCount(subTree.left)>1){
+        else if (getLevelCount(subTree.right)- getLevelCount(subTree.left)>1){
             if (getLevelCount(subTree.right.right)>=getLevelCount(subTree.right.left))
                 rotateRight(subTree);
             else
@@ -177,24 +177,21 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node1 Node to become child of its left child
      */
     private void rotateLeft(BinaryNode<ValueType> node1){
-        ValueType value = node1.value;
-        ValueType value2=node1.left.value;
-        node1.value = node1.right.value;
-        node1.left.value = value;
-        node1.left.left.value=value2;
+
     }
 
     /** TODO O( 1 ) -- Rania
      * Single rotation to the right, AVR Algorithm
      * @param node1 Node to become child of its right child
      */
-    private void rotateRight(BinaryNode<ValueType> node1){
-        ValueType value = node1.value;
-        ValueType value2=node1.right.value;
-        node1.value = node1.left.value;
-        node1.right.value = value;
-        node1.right.right.value=value2;
-       //prendre en compte ldes parents?
+    private void rotateRight(BinaryNode<ValueType> node1)
+    {
+        BinaryNode<ValueType> node2 = node1.left;
+        node1.left= node2.right;
+        node2.right=node1;
+
+
+
     }
 
     /** TODO O( 1 ) -- Rania
@@ -202,6 +199,9 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node1 Node to become child of the right child of its left child
      */
     private void doubleRotateOnLeftChild(BinaryNode<ValueType> node1){
+        BinaryNode<ValueType> node2 = node1.right;
+        node1.right= node2.left;
+        node2.left=node1;
 
 
     }
@@ -212,6 +212,8 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node1 Node to become child of the left child of its right child
      */
     private void doubleRotateOnRightChild(BinaryNode<ValueType> node1){
+        rotateLeft(node1.right);
+        rotateRight(node1);
 
     }
 
