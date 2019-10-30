@@ -145,14 +145,14 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
         else return remove(value,currentNode.right);
     }
 
-    /** TODO O( n ) Rania
+    /** TODO O( n ) -- Rania
      * Balances the subTree
      * @param subTree SubTree currently being accessed to verify if it respects the AVL balancing rule
      */
     private void balance(BinaryNode<ValueType> subTree) {
     }
 
-    /** TODO O( 1 )
+    /** TODO O( 1 )-- Rania
      * Single rotation to the left child, AVR Algorithm
      * @param node1 Node to become child of its left child
      */
@@ -162,28 +162,28 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
         node1.left.value = value;
     }
 
-    /** TODO O( 1 )
+    /** TODO O( 1 ) -- Rania
      * Single rotation to the right, AVR Algorithm
      * @param node1 Node to become child of its right child
      */
     private void rotateRight(BinaryNode<ValueType> node1){
     }
 
-    /** TODO O( 1 )
+    /** TODO O( 1 ) -- Rania
      * Double rotation on left child, AVR Algorithm
      * @param node1 Node to become child of the right child of its left child
      */
     private void doubleRotateOnLeftChild(BinaryNode<ValueType> node1){
     }
 
-    /** TODO O( 1 )
+    /** TODO O( 1 ) -- Rania
      * Double rotation on right child, AVR Algorithm
      * @param node1 Node to become child of the left child of its right child
      */
     private void doubleRotateOnRightChild(BinaryNode<ValueType> node1){
     }
 
-    /** TODO O( log n )
+    /** TODO O( log n ) -- DONE
      * Verifies if the root tree contains value
      * @param value value to verify
      * @param currentNode Node currently being accessed in this recursive method
@@ -199,12 +199,12 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
         else return true;
     }
 
-    /** TODO O( n )
+    /** TODO O( n ) -- DONE
      * Returns the number of level contained in subTree including subTree node level
      * @return Number of level contained in subTree including subTree node level
      */
     private int getLevelCount(BinaryNode<ValueType> subTree){
-        if(subTree.left == null && subTree.right == null ) return 0;
+        if(subTree==null) return 0;
         int levelRight =0,
             levelLeft = 0;
         levelRight = getLevelCount(subTree.right)+ 1;
@@ -213,30 +213,43 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
 
     }
 
-    /** TODO O( log n )
+    /** TODO O( log n ) -- DONE
      * Returns the node which has the minimal value contained in our root tree
      * @return Node which has the minimal value contained in our root tree
      */
     private BinaryNode<ValueType> findMin(BinaryNode<ValueType> currentNode) {
-        if(currentNode == null ) throw new InvalidParameterException("wtf");
+        if(currentNode == null) return null;
         if(currentNode.left == null) return currentNode;
         else return findMin(currentNode.left);
     }
 
-    /** TODO O( n )
+    /** TODO O( n ) -- DONE
      * Builds items which should contain all values within the root tree in ascending order
      * @param currentNode Node currently being accessed in this recursive method
      * @param items List being modified to contain all values in the root tree in ascending order
      */
     private void infixOrder(BinaryNode<ValueType> currentNode, List<ValueType> items){
+        if(currentNode.left != null)  infixOrder(currentNode.left,items);
+        items.add(currentNode.value);
+        if(currentNode.right != null) infixOrder(currentNode.right,items);
     }
 
-    /** TODO O( n )
+    /** TODO O( n ) -- DONE
      * Builds items which should contain all values within the root tree in level order from top to bottom
      * @param nodesToCheck Queue for non-recursive algorithm
      * @param items List being modified to contain all values in the root tree in level order from top to bottom
      */
     private void levelOrder(ArrayDeque<BinaryNode<ValueType>> nodesToCheck, List<ValueType> items) {
+        BinaryNode<ValueType> currentNode;
+        while(!nodesToCheck.isEmpty()){
+            currentNode = nodesToCheck.pollFirst();
+            items.add(currentNode.value);
+            if(currentNode.left != null)
+                nodesToCheck.addLast(currentNode.left);
+            if(currentNode.right != null)
+                nodesToCheck.addLast(currentNode.right);
+        }
+
     }
     
     static class BinaryNode<ValueType> {
