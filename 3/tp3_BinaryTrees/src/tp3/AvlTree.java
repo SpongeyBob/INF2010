@@ -150,6 +150,26 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param subTree SubTree currently being accessed to verify if it respects the AVL balancing rule
      */
     private void balance(BinaryNode<ValueType> subTree) {
+       if (subTree==null)
+            return;
+
+        if (getLevelCount(subTree.left)- getLevelCount(subTree.right)>1){
+            if (getLevelCount(subTree.left.left)>=getLevelCount(subTree.left.right) )
+                rotateLeft(subTree);
+            else
+                doubleRotateOnLeftChild(subTree);
+        }
+
+
+        if (getLevelCount(subTree.right)- getLevelCount(subTree.left)>1){
+            if (getLevelCount(subTree.right.right)>=getLevelCount(subTree.right.left))
+                rotateRight(subTree);
+            else
+                doubleRotateOnRightChild(subTree);
+            return;
+        }
+
+
     }
 
     /** TODO O( 1 )-- Rania
@@ -167,6 +187,9 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node1 Node to become child of its right child
      */
     private void rotateRight(BinaryNode<ValueType> node1){
+        ValueType value = node1.value;
+        node1.value = node1.right.value;
+        node1.right.value = value;
     }
 
     /** TODO O( 1 ) -- Rania
