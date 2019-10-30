@@ -150,25 +150,27 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param subTree SubTree currently being accessed to verify if it respects the AVL balancing rule
      */
     private void balance(BinaryNode<ValueType> subTree) {
-       if (subTree==null)
-            return;
 
-        if (getLevelCount(subTree.left)- getLevelCount(subTree.right)>1){
-            if (getLevelCount(subTree.left.left)>=getLevelCount(subTree.left.right) )
+        //break recursion
+        if(subTree==null) return;
+        //check if rotations needed
+        int height = getLevelCount(subTree.left) - getLevelCount(subTree.right);
+        if(height >= -1 && height <= 1) {
+            balance(subTree.left);
+            balance(subTree.right);
+        }
+        if(height > 1){ // left bigger than right
+            if(getLevelCount(subTree.left.left) > getLevelCount(subTree.left.right)) //left-left
                 rotateLeft(subTree);
-            else
+            else    //left-right
                 doubleRotateOnLeftChild(subTree);
         }
-
-
-        else if (getLevelCount(subTree.right)- getLevelCount(subTree.left)>1){
-            if (getLevelCount(subTree.right.right)>=getLevelCount(subTree.right.left))
+        else if(height < -1 ){ //right bigger than left
+            if(getLevelCount(subTree.right.right)> getLevelCount(subTree.right.left)) // right-right
                 rotateRight(subTree);
-            else
+            else //right-left
                 doubleRotateOnRightChild(subTree);
-            return;
         }
-
 
     }
 
@@ -178,20 +180,29 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      */
     private void rotateLeft(BinaryNode<ValueType> node1){
 
+        BinaryNode<ValueType> node = node1.left;
+        node1.left = node.right;
+        node.right = node1;
+        //update parents
+        node.parent = node1.parent;
+        node1.parent = node;
+        if(node1.left != null) node1.left.parent = node1;
     }
 
     /** TODO O( 1 ) -- Rania
      * Single rotation to the right, AVR Algorithm
      * @param node1 Node to become child of its right child
      */
-    private void rotateRight(BinaryNode<ValueType> node1)
-    {
-        BinaryNode<ValueType> node2 = node1.left;
-        node1.left= node2.right;
-        node2.right=node1;
+    private void rotateRight(BinaryNode<ValueType> node1) {
+        BinaryNode node = node1.right;
 
+        node1.right =node.left;
+        node.left = node1;
 
-
+        //update parents
+        node.parent = node1.parent;
+        node1.parent = node;
+        if(node1.right != null) node1.right.parent = node1;
     }
 
     /** TODO O( 1 ) -- Rania
@@ -199,11 +210,8 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      * @param node1 Node to become child of the right child of its left child
      */
     private void doubleRotateOnLeftChild(BinaryNode<ValueType> node1){
-        BinaryNode<ValueType> node2 = node1.right;
-        node1.right= node2.left;
-        node2.left=node1;
-
-
+        rotateRight(node1.left);
+        rotateLeft(node1);
     }
 
 
@@ -214,7 +222,6 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
     private void doubleRotateOnRightChild(BinaryNode<ValueType> node1){
         rotateLeft(node1.right);
         rotateRight(node1);
-
     }
 
     /** TODO O( log n ) -- DONE
