@@ -178,10 +178,10 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
      */
     private void rotateLeft(BinaryNode<ValueType> node1){
         ValueType value = node1.value;
-        ValueType value2=node1.right.value;
-        node1.value = node1.left.value;
-        node1.right.value = value;
-        node1.right.right.value=value2;
+        ValueType value2=node1.left.value;
+        node1.value = node1.right.value;
+        node1.left.value = value;
+        node1.left.left.value=value2;
     }
 
     /** TODO O( 1 ) -- Rania
@@ -194,7 +194,7 @@ public class AvlTree<ValueType extends Comparable<? super ValueType> > {
         node1.value = node1.left.value;
         node1.right.value = value;
         node1.right.right.value=value2;
-       //prendre en compte les parents?
+       //prendre en compte ldes parents?
     }
 
     /** TODO O( 1 ) -- Rania
