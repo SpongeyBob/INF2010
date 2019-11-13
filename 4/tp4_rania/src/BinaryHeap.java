@@ -42,9 +42,9 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 		if (min) { //A REVOIR
 			while (j != 0 && array[(j - 1) / 2] > array[j]) {
 
-				AnyType temp = harr[j];
-				harr[j] = harr[(j - 1) / 2];
-    		&harr[(j - 1) / 2] = temp;
+				AnyType temp = arr[j];
+				arr[j] = arr[(j - 1) / 2];
+    		& arr[(j - 1) / 2] = temp;
 				j = (j - 1) / 2;
 			}
 		}
@@ -52,9 +52,9 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 		{
 			while (j != 0 && array[(j - 1) / 2] < array[j]) {
 
-				AnyType temp = harr[j];
-				harr[j] = harr[(j - 1) / 2];
-    		&harr[(j - 1) / 2] = temp;
+				AnyType temp = arr[j];
+				arr[j] = arr[(j - 1) / 2];
+    		&arr[(j - 1) / 2] = temp;
 				j = (j - 1) / 2;
 
 		}
@@ -173,16 +173,16 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 		for (; hole * 2 <= currentSize; hole = child) {
 
 
-			child = hole * 2; //Considérer fils de gauche
+			child = hole * 2;
 
-			if (child != currentSize && // il y a deux fils
-					array[child + 1].compareTo(array[child]) < 0) //et fils droit<fils gauche
-				child++; //Considérer fils droit
+			if (child != currentSize && // deux fils
+					array[child + 1].compareTo(array[child]) < 0)
+				child++; //fils droit
 
-			if (array[child].compareTo(tmp) < 0)//fils considéré< élément à percoler
-				array[hole] = array[child];//Remonter le fils courrent de un niveau else
+			if (array[child].compareTo(tmp) < 0)
+				array[hole] = array[child];
 
-			break; //sortir de la boucle. L’élément à percoler sera inséré à position hole array[ hole ] = tmp; // Insérer l’élément à percoler à la position hole
+			break;
 
 		}
 		array[ hole ] = tmp;
@@ -212,16 +212,16 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 		for (; hole * 2 <= currentSize; hole = child) {
 
 
-			child = hole * 2; //Considérer fils de gauche
+			child = hole * 2;
 
-			if (child != currentSize && // il y a deux fils
-					array[child + 1].compareTo(array[child]) >0) //et fils droit<fils gauche
-				child++; //Considérer fils droit
+			if (child != currentSize &&
+					array[child + 1].compareTo(array[child]) >0)
+				child++;
 
-			if (array[child].compareTo(tmp) >0)//fils considéré< élément à percoler
-				array[hole] = array[child];//Remonter le fils courrent de un niveau else
+			if (array[child].compareTo(tmp) >0)
+				array[hole] = array[child];
 
-			break; //sortir de la boucle. L’élément à percoler sera inséré à position hole array[ hole ] = tmp; // Insérer l’élément à percoler à la position hole
+			break;
 
 		}
 		array[ hole ] = tmp;
@@ -231,14 +231,14 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 				   void heapSort( AnyType[] a )
     { //done
 
-		for( int i = a.length / 2; i >= 0; i-- ) /* construire le monceau */ {
+		for( int i = a.length / 2; i >= 0; i-- )  {
 			percolateDownMaxHeap(a, i, a.length, false);
 		}
 
 		for( int i = a.length - 1; i > 0; i-- ) {
-			swapReferences( a, 0, i ); /* permuter le maximum (racine) avec le dernière élément du monceau */
+			swapReferences( a, 0, i );
 
-			percolateDownMaxHeap( a, 0, i, false ); // achanger
+			percolateDownMaxHeap( a, 0, i, false );
 
 		}
     }
@@ -247,14 +247,14 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
 				   void heapSortReverse( AnyType[] a )
     {
 	//DONE
-		for( int i = a.length / 2; i >= 0; i-- ) /* construire le monceau */ {
+		for( int i = a.length / 2; i >= 0; i-- ){
 			percolateDownMinHeap(a, i, a.length, false);
 		}
 
 		for( int i = a.length - 1; i > 0; i-- ) {
-			swapReferences( a, 0, i ); /* permuter le maximum (racine) avec le dernière élément du monceau */
+			swapReferences( a, 0, i );
 
-			percolateDownMinHeap( a, 0, i, false ); // achanger
+			percolateDownMinHeap( a, 0, i, false );
 
 		}
 
