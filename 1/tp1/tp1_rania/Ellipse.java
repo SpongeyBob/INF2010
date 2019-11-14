@@ -2,9 +2,9 @@ package tp1;
 
 import java.util.Set;
 
-public class Ellipse extends BaseShape {
+public class Ellipse extends tp1.BaseShape {
     // TODO creer une ellipse avec une largeur et une longueur.
-    public Ellipse(Double widthRadius, Double heightRadius) super(){
+    public Ellipse(Double widthRadius, Double heightRadius) {
         widthRadius=0;
         heightRadius=0;
 
