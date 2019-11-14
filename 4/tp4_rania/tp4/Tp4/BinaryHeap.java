@@ -224,25 +224,33 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
     }
 
     public String nonRecursivePrintFancyTree() {
-        StringBuilder sb = new StringBuilder();
-        int count =0;
-        int i =1;
-        String prefix="";
-        while (count < currentSize){
-            sb.append(prefix);
-            sb.append("|__");
-            sb.append(array[i].toString());
-            sb.append("\n");
-            count++;
-            if(i*2<=currentSize){ //has kid
-                i += i;
-                prefix += "    ";//4spaces
-            }else if(i<currentSize){//has a brother
-
+        String outputString = "";
+        String prefix = "";
+        int i = 1;
+        boolean isleft = false;  //enfant de droite ou de gauche
+        while (i > 0) {
+            outputString += prefix + "|__" + array[i] + "\n";
+            if (i * 2 <= currentSize) { // si il a un enfant
+                if(isleft) prefix += "|   ";
+                else prefix += "    ";
+                isleft = true;
+                i+=i;
+            }
+            else if (isleft && i + 1 <= currentSize) { //si il a un voisin
+                isleft = false;
                 i++;
-            }else i = i/2 +1;  //uncle
+            }
+            else {
+                while(i % 2 != 0 ){
+                    i = i /2;
+                    if(i > 0) prefix = prefix.substring(0, prefix.length() - 4);
+                }
+
+                if(i > 0) ++i;
+                isleft =  false;
+            }
         }
-        return sb.toString();
+        return outputString;
     }
 
     public String printFancyTree() {
@@ -284,7 +292,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> extends Abs
     }
     private class HeapIterator implements Iterator {
         int index =0;
-        int modif = modifications;
+        int modif = new Integer(modifications);
         public boolean hasNext() {
             return index<currentSize;
         }

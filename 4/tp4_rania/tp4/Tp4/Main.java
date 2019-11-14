@@ -1,6 +1,7 @@
 package Tp4;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.concurrent.ThreadLocalRandom;
@@ -53,12 +54,11 @@ public class Main {
 
         System.out.println("Affichage non recursif:");
         System.out.println(heap.nonRecursivePrintFancyTree());
-
+        System.out.println(heap.getArrayList().toString());
         System.out.println();
         System.out.println("Tableau d'origine:");
         System.out.println(printArray(items));
-
-        BinaryHeap.heapSort(items);
+        ;
         System.out.println("Tableau ordonne:");
         System.out.println(printArray(items));
 
@@ -67,6 +67,10 @@ public class Main {
         System.out.println(printArray(items));
 
 
+
+
+
+        /*Some tests */
         PriorityQueue pq = new PriorityQueue();
         BinaryHeap<Integer> bh = new BinaryHeap(true);
 
@@ -77,6 +81,7 @@ public class Main {
             pq.offer(randomNum);
             bh.offer(randomNum);
         }
+        /* ITERATOR can iterate */
         ArrayList<Integer> list = new ArrayList<>();
         Iterator it = bh.iterator();
         while(it.hasNext()){
@@ -85,7 +90,7 @@ public class Main {
         ArrayList<Integer> list2 = bh.getArrayList();
         if(list.equals(list2))System.out.println("\n\nyour iterator looks good!\n");
 
-
+        /*POLLING ALWAYS RETURN MIN VALUE*/
         for (i = 0; i < 11; ++i) {
             Integer pqPoll = (Integer) pq.poll();
             Integer bhPoll = bh.poll();
